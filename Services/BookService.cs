@@ -30,4 +30,23 @@ public class BookService() {
   public List<Book> FindAll() {
     return _books;
   }
+
+  public bool Delete(int id) {
+    var book = _books.FirstOrDefault((b) => b.Id == id);
+
+    // Si el libro no se encuentra, retorna falso
+    if (book is null) {
+      return false;
+    }
+
+    // Eliminar un libro
+    _books.Remove(book);
+
+    return true;
+  }
+
+  public bool Create(Book book) {
+    _books.Add(book);
+    return true;
+  }
 }

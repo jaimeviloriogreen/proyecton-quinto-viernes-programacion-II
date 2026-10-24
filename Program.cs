@@ -50,10 +50,45 @@ class Program {
 
           break;
         case "2. Eliminar un libro":
-          Console.WriteLine("Opción 2");
+          AnsiConsole.Clear();
+          int id = AnsiConsole.Ask<int>("Indica el id que quieres eliminar: ");
+
+          AnsiConsole.WriteLine("");
+          var confirmed = AnsiConsole.Confirm("¿Estás seguro?");
+
+          if (confirmed) {
+            bool deleted = bookService.Delete(id);
+
+            if (deleted) {
+              AnsiConsole.MarkupLine("\n[DarkOliveGreen1_1]Libro eliminado![/]\n");
+              break;
+            }
+
+            AnsiConsole.MarkupLine("\n[red]Libro no encontrado![/]\n");
+          }
+          else {
+            AnsiConsole.MarkupLine("\n[yellow]Operación cancelada![/]\n");
+
+          }
+
+
           break;
         case "3. Agregar un libro":
-          Console.WriteLine("Opción 3");
+          AnsiConsole.Clear();
+          string title = AnsiConsole.Ask<string>("[DarkGoldenrod]Indica el título del libro: [/]");
+          string gender = AnsiConsole.Ask<string>("[DarkGoldenrod]Indica el género del libro: [/]");
+          string author = AnsiConsole.Ask<string>("[DarkGoldenrod]Indica el author del libro: [/]");
+
+          var maxId = books.Max((b) => b.Id);
+
+          Book newBook = new() {
+            Id = maxId + 1,
+            Title = title,
+            Gender = gender,
+            Author = author
+          };
+          bookService.Create(newBook);
+          AnsiConsole.MarkupLine("\n[DarkOliveGreen1_1]Libro agregado![/]\n");
           break;
         case "4. Salir":
           AnsiConsole.Clear();
